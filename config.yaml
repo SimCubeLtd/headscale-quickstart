@@ -1,6 +1,6 @@
 ---
 # headscale configuration
-server_url: http://api.HEADSCALE_BASE_DOMAIN:8080
+server_url: https://HEADSCALE_BASE_DOMAIN:443
 
 # Address to listen to / bind to on the server
 listen_addr: 0.0.0.0:8080
@@ -236,7 +236,7 @@ dns_config:
   # `base_domain` must be a FQDNs, without the trailing dot.
   # The FQDN of the hosts will be
   # `hostname.user.base_domain` (e.g., _myhost.myuser.example.com_).
-  base_domain: example.com
+  base_domain: HEADSCALE_BASE_DOMAIN
 
 # Unix socket used for the CLI to connect without authentication
 # Note: for production you will want to set this to something like:

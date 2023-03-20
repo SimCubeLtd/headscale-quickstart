@@ -6,32 +6,41 @@
 
 # Dashboard
 https://dashboard.HEADSCALE_BASE_DOMAIN {
-        # Apply basic security headers
         header {
-                # Enable cross origin access to *.HEADSCALE_BASE_DOMAIN
-                Access-Control-Allow-Origin *.HEADSCALE_BASE_DOMAIN
-                # Enable HTTP Strict Transport Security (HSTS)
+                Access-Control-Allow-Origin https://dashboard.HEADSCALE_BASE_DOMAIN
+		Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE"
+	        Access-Control-Allow-Headers *
                 Strict-Transport-Security "max-age=31536000;"
-                # Enable cross-site filter (XSS) and tell browser to block detected attacks
                 X-XSS-Protection "1; mode=block"
-                # Disallow the site to be rendered within a frame on a foreign domain (clickjacking protection)
                 X-Frame-Options "SAMEORIGIN"
-                # Prevent search engines from indexing
                 X-Robots-Tag "none"
-                # Remove the server name
                 -Server
         }
-
-        reverse_proxy https://headscale-ui
-        transport http {
-		        tls_insecure_skip_verify
-		}
+        reverse_proxy http://headscale-ui
 }
 
 # API
 https://api.HEADSCALE_BASE_DOMAIN {
-        reverse_proxy http://headscale:8080
-        header {
-                Access-Control-Allow-Origin *.HEADSCALE_BASE_DOMAIN
-        }
+@hs-options {
+		host api.HEADSCALE_BASE_DOMAIN
+		method OPTIONS
+	}
+	@hs-other {
+		host api.HEADSCALE_BASE_DOMAIN
+	}
+	handle @hs-options {
+		header {
+			Access-Control-Allow-Origin https://dashboard.HEADSCALE_BASE_DOMAIN
+			Access-Control-Allow-Headers *
+			Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE"
+		}
+		respond 204
+	}
+	handle @hs-other {
+		reverse_proxy http://headscale:8080 {
+			header_down Access-Control-Allow-Origin https://dashboard.HEADSCALE_BASE_DOMAIN
+			header_down Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE"
+			header_down Access-Control-Allow-Headers *
+		}
+	}
 }
