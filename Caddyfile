@@ -22,10 +22,16 @@ https://dashboard.HEADSCALE_BASE_DOMAIN {
                 -Server
         }
 
-        reverse_proxy http://headscale-ui
+        reverse_proxy https://headscale-ui
+        transport http {
+		        tls_insecure_skip_verify
+		}
 }
 
 # API
 https://api.HEADSCALE_BASE_DOMAIN {
         reverse_proxy http://headscale:8080
+        header {
+                Access-Control-Allow-Origin *.HEADSCALE_BASE_DOMAIN
+        }
 }
