@@ -3,7 +3,7 @@ version: "3.4"
 services:
   headscale:
     container_name: headscale
-    image: headscale/headscale:latest-alpine
+    image: headscale/headscale:0.21
     volumes:
       - ./config:/etc/headscale/
       - ./data:/var/lib/headscale
