@@ -23,7 +23,7 @@ services:
     tty: true
     depends_on:
       - headscale
-      - headscale_ui
+      - headscale-ui
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
