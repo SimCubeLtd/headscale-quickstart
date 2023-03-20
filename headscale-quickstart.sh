@@ -197,7 +197,6 @@ install() {
 
     CONFIG_DIR="/root/headscale"
     HEADSCALE_BASE_DOMAIN=headscale.$(curl -s ifconfig.me | tr . -).nip.io
-    COREDNS_IP=$(ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p')
     SERVER_PUBLIC_IP=$(curl -s ifconfig.me)
 
     mkdir -p $CONFIG_DIR
@@ -275,11 +274,11 @@ install() {
 
     echo "Setting up configuration files..."
 
-    sed -i "s/HEADSCALE_BASE_DOMAIN/$HEADSCALE_BASE_DOMAIN/g" ./docker-compose.yml
-    sed -i "s/HEADSCALE_BASE_DOMAIN/$HEADSCALE_BASE_DOMAIN/g" ./Caddyfile
-    sed -i "s/HEADSCALE_BASE_DOMAIN/$HEADSCALE_BASE_DOMAIN/g" ./config/config.yaml
-    sed -i "s/CONFIG_FOLDER/$CONFIG_DIR/g" ./config/config.yaml
-    sed -i "s/YOUR_EMAIL/$EMAIL/g" ./Caddyfile
+    sed -i "s|HEADSCALE_BASE_DOMAIN|${HEADSCALE_BASE_DOMAIN}|g" ./docker-compose.yml
+    sed -i "s|HEADSCALE_BASE_DOMAIN|${HEADSCALE_BASE_DOMAIN}|g" ./Caddyfile
+    sed -i "s|HEADSCALE_BASE_DOMAIN|${HEADSCALE_BASE_DOMAIN}|g" ./config/config.yaml
+    sed -i "s|CONFIG_FOLDER|${CONFIG_DIR}|g" ./config/config.yaml
+    sed -i "s|YOUR_EMAIL|${EMAIL}|g" ./Caddyfile
     
     echo "Starting containers..."
 
