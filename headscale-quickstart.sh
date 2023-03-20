@@ -157,9 +157,9 @@ confirm() {(
 )}
 
 pull_config() {
-    COMPOSE_URL="" 
-    CADDY_URL=""
-    CONFIG_URL=""
+    COMPOSE_URL="https://raw.githubusercontent.com/SimCubeLtd/headscale-quickstart/main/docker-compose.yaml" 
+    CADDY_URL="https://raw.githubusercontent.com/SimCubeLtd/headscale-quickstart/main/Caddyfile"
+    CONFIG_URL="https://raw.githubusercontent.com/SimCubeLtd/headscale-quickstart/main/config.yaml"
     echo "Pulling config files..."
     mkdir -p ./config
     mkdir -p ./data
