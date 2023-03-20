@@ -299,7 +299,7 @@ install() {
     echo "Controller Running at: https://api.$HEADSCALE_BASE_DOMAIN"
     echo ""
     echo "To generate an api key for the dashboard, run:"
-    echo "'sudo docker exec -it headscale headscale apikeys create'"
+    echo "'sudo docker exec headscale headscale apikeys create'"
     echo "And copy the api key into the dashboard settings."
     echo "-----------------------------------------------------------------"
     echo "-----------------------------------------------------------------"
