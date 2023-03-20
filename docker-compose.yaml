@@ -1,0 +1,38 @@
+version: "3.4"
+
+services:
+  headscale:
+    container_name: headscale
+    image: headscale/headscale:latest-alpine
+    volumes:
+      - ./config:/etc/headscale/
+      - ./data:/var/lib/headscale
+    command: headscale serve
+    restart: unless-stopped
+  headscale-ui:
+    container_name: headscale-ui
+    image: ghcr.io/gurucomputing/headscale-ui:latest
+    restart: unless-stopped
+    depends_on:
+      - headscale
+  caddy:
+    image: caddy:2.6.2
+    container_name: caddy
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    depends_on:
+      - headscale
+      - headscale_ui
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_conf:/config
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    entrypoint: /usr/bin/caddy run --adapter caddyfile --config /etc/caddy/Caddyfile
+volumes:
+  caddy_data: {}
+  caddy_conf: {}
