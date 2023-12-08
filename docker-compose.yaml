@@ -16,7 +16,7 @@ services:
     depends_on:
       - headscale
   caddy:
-    image: caddy:2.6.4
+    image: caddy:2.7.6
     container_name: caddy
     restart: unless-stopped
     stdin_open: true
